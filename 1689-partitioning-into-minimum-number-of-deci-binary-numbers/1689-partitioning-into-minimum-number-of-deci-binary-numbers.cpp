@@ -1,9 +1,11 @@
 class Solution {
 public:
     int minPartitions(string n) {
-        int res = 0;
+        int ans = 0;
 	    for(auto ch : n) 
-            res = max(res, ch - '0');
-	    return res;
+            ans = max(ans, ch - '0');
+	    return ans;
     }
 };
+//time complexity:O(n)
+//space complexity:O(1)
