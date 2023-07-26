@@ -5,13 +5,12 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   private:
-    void dfs(int vis[],vector<int> adj[], int V,int start,vector<int>&ls){
+    void dfs(int vis[],vector<int> adj[],int start,vector<int>&ls){
         vis[start] = 1;
         ls.push_back(start);
         for(auto it:adj[start]){
             if(!vis[it]){
-                vis[it]=1;
-                dfs(vis,adj,V,it,ls);
+                dfs(vis,adj,it,ls);
             }
         }
     }
@@ -20,7 +19,7 @@ class Solution {
     vector<int> dfsOfGraph(int V, vector<int> adj[]) {
         vector<int>ls;
         int vis[V] = {0};
-        dfs(vis,adj,V,0,ls);
+        dfs(vis,adj,0,ls);
         return ls;
     }
 };
