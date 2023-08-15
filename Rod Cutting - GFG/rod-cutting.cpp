@@ -9,23 +9,24 @@ using namespace std;
 // User function Template for C++
 
 class Solution{
-  private:
-    int f(int ind,int n,int price[],vector<vector<int>>&dp){
-        if(ind == 0){
-            return n*price[0];
-        }
-        if(dp[ind][n]!=-1)return dp[ind][n];
-        
-        int notTake = f(ind-1,n,price,dp);
-        int take = 0;
-        int rodLength = ind+1;
-        if(rodLength <= n) take = price[ind] + f(ind,n-rodLength,price,dp);
-        return dp[ind][n] = max(take,notTake);
-    }
+  
   public:
     int cutRod(int price[], int n) {
-        vector<vector<int>>dp(n,vector<int>(n+1,-1));
-        return f(n-1,n,price,dp);
+        vector<vector<int>>dp(n,vector<int>(n+1,0));
+        for(int i=0;i<=n;i++){
+            dp[0][i] = i*price[0];
+        }
+        
+        for(int ind=1;ind<n;ind++){
+            for(int target=0;target<=n;target++){
+                int notTake = dp[ind-1][target];
+                int take = -1e9;
+                int rodLength = ind+1;
+                if(rodLength <= target) take = price[ind] + dp[ind][target - rodLength];
+                dp[ind][target] = max(take,notTake);
+            }
+        }
+        return dp[n-1][n];
     }
 };
 
