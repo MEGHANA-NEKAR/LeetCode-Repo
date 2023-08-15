@@ -12,7 +12,7 @@ class Solution{
   
   public:
     int cutRod(int price[], int n) {
-        vector<int>prev(n+1,0),curr(n+1,0);
+        vector<int>prev(n+1,0);
         for(int i=0;i<=n;i++){
             prev[i] = i*price[0];
         }
@@ -22,10 +22,9 @@ class Solution{
                 int notTake = prev[target];
                 int take = -1e9;
                 int rodLength = ind+1;
-                if(rodLength <= target) take = price[ind] + curr[target - rodLength];
-                curr[target] = max(take,notTake);
+                if(rodLength <= target) take = price[ind] + prev[target - rodLength];
+                prev[target] = max(take,notTake);
             }
-            prev = curr;
         }
         return prev[n];
     }
