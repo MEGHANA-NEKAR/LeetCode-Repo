@@ -3,42 +3,32 @@
 using namespace std;
 
 // } Driver Code Ends
-
 class Solution {
 private:
-    bool check(int node,int color[],vector<int>adj[]){
-        queue<int>q;
-        q.push(node);
-        color[node] = 0;
-        while(!q.empty()){
-            int node = q.front();
-            q.pop();
-            for(auto it:adj[node]){
-                if(color[it] == -1){
-                    q.push(it);
-                    color[it] = !color[node];
-                }
-                else if(color[node] == color[it]) return false;
+    bool dfs(int node,int col,vector<int>&color,vector<int>adj[]){
+        color[node] = col;
+        for(auto it:adj[node]){
+            if(color[it] == -1){
+                if(dfs(it,!col,color,adj) == false) return false;
+            }
+            else if(color[it] == col){
+                return false;
             }
         }
         return true;
     }
 public:
 	bool isBipartite(int V, vector<int>adj[]){
-	    int color[V];
-	    for(int i=0;i<V;i++){
-	        color[i] = -1;
-	    }
+	    vector<int>color(V,-1);
 	    for(int i=0;i<V;i++){
 	        if(color[i] == -1){
-	            if(check(i,color,adj) == false) return false;
+	            if(dfs(i,0,color,adj) == false) return false;
 	        }
 	    }
 	    return true;
 	}
 
 };
-
 
 //{ Driver Code Starts.
 int main(){
