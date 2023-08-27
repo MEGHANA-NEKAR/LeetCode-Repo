@@ -8,25 +8,26 @@ class Solution {
   public:
     int maximumPoints(vector<vector<int>>& points, int n) {
         // Code here
-        vector<vector<int>>dp(n+1,vector<int>(4,0));
-        dp[0][0] = max(points[0][1],points[0][2]);
-        dp[0][1] = max(points[0][0],points[0][2]);
-        dp[0][2] = max(points[0][1],points[0][0]);
-        dp[0][3] = max(points[0][0],max(points[0][1],points[0][2]));
+        vector<int>prev(4,0),curr(4,0);
+        prev[0] = max(points[0][1],points[0][2]);
+        prev[1] = max(points[0][0],points[0][2]);
+        prev[2] = max(points[0][1],points[0][0]);
+        prev[3] = max(points[0][0],max(points[0][1],points[0][2]));
         
         for(int day = 1;day<n;day++){
             for(int last=0;last<4;last++){
                 int maxi = 0;
                 for(int task=0;task<3;task++){
                     if(task!=last){
-                        int score = points[day][task] + dp[day-1][task];
+                        int score = points[day][task] + prev[task];
                         maxi = max(maxi,score);
                     }
                 }
-                dp[day][last] = maxi;
+                curr[last] = maxi;
             }
+            prev = curr;
         }
-        return dp[n-1][3];
+        return prev[3];
     }
 };
 
