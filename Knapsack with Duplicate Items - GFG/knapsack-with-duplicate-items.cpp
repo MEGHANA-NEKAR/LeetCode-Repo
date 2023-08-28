@@ -8,26 +8,26 @@ using namespace std;
 // User function Template for C++
 
 class Solution{
-
+private:
+    int f(int ind,int W,int val[],int wt[],vector<vector<int>>&dp){
+        if(ind == 0){
+            return (W/wt[0])*val[0];
+        }
+        if(dp[ind][W]!=-1)return dp[ind][W];
+        int notTake = f(ind-1,W,val,wt,dp);
+        int take = -1e9;
+        if(W>=wt[ind]){
+            take = val[ind] + f(ind,W-wt[ind],val,wt,dp);
+        }
+        return dp[ind][W] = max(take,notTake);
+    }
 public:
     int knapSack(int N, int W, int val[], int wt[])
     {   
-        vector<int>prev(W+1,0);
-        for(int t=0;t<=W;t++){
-            prev[t] = ((int)(t/wt[0]))*val[0];
-        }
-        for(int ind=1;ind<N;ind++){
-            for(int target = 0;target<=W;target++){
-                int notTake = prev[target];
-                int take = 0;
-                if(target >= wt[ind]) take = val[ind] + prev[target - wt[ind]];
-                prev[target] = max(take,notTake);
-            }
-        }
-        return prev[W];
+        vector<vector<int>>dp(N,vector<int>(W+1,-1));
+        return f(N-1,W,val,wt,dp);
     }
 };
-
 
 //{ Driver Code Starts.
 
