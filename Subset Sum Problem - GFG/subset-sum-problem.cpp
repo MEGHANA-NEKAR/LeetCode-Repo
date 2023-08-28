@@ -12,22 +12,21 @@ class Solution{
 public:
     bool isSubsetSum(vector<int>arr, int sum){
         int n = arr.size();
-        vector<vector<bool>>dp(n,vector<bool>(sum+1,0));
-        for(int i=0;i<n;i++){
-            dp[i][0] = true;
-        }
-        if(sum >= arr[0]) dp[0][arr[0]] = true;
+        vector<bool>prev(sum+1,0),curr(sum+1,0);
+        prev[0] = curr[0] = true;
+        if(sum >= arr[0]) prev[arr[0]] = true;
         for(int ind=1;ind<n;ind++){
             for(int target=1;target<=sum;target++){
-                bool notPick = dp[ind-1][target];
+                bool notPick = prev[target];
                 bool pick = false;
                 if(target >= arr[ind]){
-                    pick = dp[ind-1][target - arr[ind]];
+                    pick = prev[target - arr[ind]];
                 }
-                dp[ind][target] = pick | notPick;
+                curr[target] = pick | notPick;
             }
+            prev = curr;
         }
-        return dp[n-1][sum];
+        return prev[sum];
     }
 };
 
