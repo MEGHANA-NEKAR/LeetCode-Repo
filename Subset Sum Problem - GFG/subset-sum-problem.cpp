@@ -7,31 +7,28 @@ using namespace std;
 // } Driver Code Ends
 //User function template for C++
 
-class Solution{
+class Solution{   
+private:
+    bool f(int ind,int target,vector<int>&arr,vector<vector<int>>&dp){
+        if(target ==0 ) return true;
+        if(ind == 0){
+            return (target == arr[0]);
+        }
+        if(dp[ind][target]!=-1)return dp[ind][target];
+        bool notPick = f(ind-1,target,arr,dp);
+        bool pick = false;
+        if(target >= arr[ind]){
+            pick = f(ind-1,target-arr[ind],arr,dp);
+        }
+        return dp[ind][target] = pick | notPick;
+    }
 public:
     bool isSubsetSum(vector<int>arr, int sum){
         int n = arr.size();
-        vector<bool>prev(sum+1,0);
-        vector<bool>curr(sum+1,0);
-        for(int i=0;i<n;i++){
-            curr[0] = true;
-        }
-        prev[arr[0]] = true;
-        
-        for(int ind=1;ind<n;ind++){
-            for(int target=1;target<=sum;target++){
-                bool notTake = prev[target];
-                bool take = false;
-                if(target >= arr[ind]) take = prev[target - arr[ind]];
-                
-                curr[target] = take | notTake;
-            }
-            prev = curr;
-        }
-        return prev[sum];
+        vector<vector<int>>dp(n,vector<int>(sum+1,-1));
+        return f(n-1,sum,arr,dp);
     }
 };
-
 
 //{ Driver Code Starts.
 int main() 
