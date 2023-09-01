@@ -104,12 +104,17 @@ class Solution {
         while(!q.empty()){
             auto it = q.front();
             q.pop();
-            Node* ele = it.first;
+            Node* node = it.first;
             int line = it.second;
-            mpp[line] = ele->data;
             
-            if(ele->left != NULL) q.push({ele->left,line-1});
-            if(ele->right != NULL) q.push({ele->right,line+1});
+            mpp[line] = node->data;
+            
+            if(node->left){
+                q.push({node->left,line-1});
+            }
+            if(node->right){
+                q.push({node->right,line+1});
+            }
         }
         for(auto it:mpp){
             ans.push_back(it.second);
@@ -117,8 +122,6 @@ class Solution {
         return ans;
     }
 };
-
-
 
 //{ Driver Code Starts.
 
