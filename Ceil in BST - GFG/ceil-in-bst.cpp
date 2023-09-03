@@ -101,7 +101,6 @@ int main() {
 // Function to return the ceil of given number in BST.
 int findCeil(Node* root, int input) {
     if (root == NULL) return -1;
-
     int ceil = -1;
     while(root){
         if(root->data == input){
@@ -117,5 +116,5 @@ int findCeil(Node* root, int input) {
         }
     }
     return ceil;
+    // Your code here
 }
-
