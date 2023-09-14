@@ -29,26 +29,23 @@ class Solution
         }
         
         int candidate = st.top();
-        bool rowCheck = false;
         int zeroCount = 0;
         for(int i=0;i<n;i++){
             if(M[candidate][i] == 0){
                 zeroCount++;
             }
         }
-        if(zeroCount == n) rowCheck = true;
+        if(zeroCount != n) return -1;
         
-        bool colCheck = false;
         int oneCount = 0;
         for(int i=0;i<n;i++){
             if(M[i][candidate] == 1){
                 oneCount++;
             }
         }
-        if(oneCount == n-1) colCheck = true;
+        if(oneCount != n-1) return -1;
         
-        if(rowCheck && colCheck) return candidate;
-        return -1;
+        return candidate;
     }
 };
 
