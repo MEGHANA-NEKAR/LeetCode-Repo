@@ -9,26 +9,49 @@ using namespace std;
 
 class Solution 
 {
+   
     public:
     //Function to find if there is a celebrity in the party or not.
     int celebrity(vector<vector<int> >& M, int n) 
     {
-        int candidate = 0;
-        for(int i=1;i<n;i++){
-            if(M[candidate][i] == 1){
-                candidate = i;
-            }
-        }
-        
+        stack<int>st;
         for(int i=0;i<n;i++){
-            if(candidate!=i && (M[candidate][i] == 1 || M[i][candidate] == 0)){
-                return -1;
-            }
+            st.push(i);
         }
         
-        return candidate;
+        while(st.size() > 1){
+            int a = st.top();
+            st.pop();
+            int b = st.top();
+            st.pop();
+            if(M[a][b] == 1) st.push(b);
+            else st.push(a);
+        }
+        
+        int candidate = st.top();
+        bool rowCheck = false;
+        int zeroCount = 0;
+        for(int i=0;i<n;i++){
+            if(M[candidate][i] == 0){
+                zeroCount++;
+            }
+        }
+        if(zeroCount == n) rowCheck = true;
+        
+        bool colCheck = false;
+        int oneCount = 0;
+        for(int i=0;i<n;i++){
+            if(M[i][candidate] == 1){
+                oneCount++;
+            }
+        }
+        if(oneCount == n-1) colCheck = true;
+        
+        if(rowCheck && colCheck) return candidate;
+        return -1;
     }
 };
+
 
 //{ Driver Code Starts.
 
