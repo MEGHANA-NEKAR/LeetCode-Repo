@@ -5,25 +5,19 @@ using namespace std;
 // } Driver Code Ends
 class Solution{   
 public:
-    long maximumSumSubarray(int k, vector<int> &Arr , int N){
-        int i=0;
-        int j=0;
-        long sum=0;
-        long maxSum = INT_MIN;
+    long maximumSumSubarray(int K, vector<int> &Arr , int N){
+        int i=0,j=0;
+        long sum = 0,maxi = 0;
         while(j<N){
             sum += Arr[j];
-            if(j-i+1 < k){
-                j++;
-            }
-            else if(j-i+1 == k){
-                maxSum = max(maxSum,sum);
-                sum = sum-Arr[i];
+            if(j-i+1 == K){
+                maxi = max(maxi,sum);
+                sum = sum - Arr[i];
                 i++;
-                j++;
             }
-            
+            j++;
         }
-        return maxSum;
+        return maxi;
     }
 };
 
