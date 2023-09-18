@@ -5,33 +5,29 @@ using namespace std;
 
 // } Driver Code Ends
 
-
 class Solution{
     public:
-    int lenOfLongSubarr(int A[],  int N, int k) 
+    int lenOfLongSubarr(int A[],  int N, int K) 
     { 
-        unordered_map<int ,int>preSum;
-        int sum = 0;
-        int len = 0;
+        unordered_map<int,int>mpp;
+        int len=0,sum=0;
         for(int i=0;i<N;i++){
             sum += A[i];
-            if(sum == k){
+            if(sum == K){
                 len = max(len,i+1);
             }
-            int rem = sum - k;
-            if(preSum.find(rem)!=preSum.end()){
-                len = max(len, i - preSum[rem]);
+            int rem = sum - K;
+            if(mpp.find(rem) != mpp.end()){
+                len = max(len, i - mpp[rem]);
             }
-            if(preSum.find(sum) == preSum.end()){
-                preSum[sum] = i;
+            if(mpp.find(sum) == mpp.end()){
+                mpp[sum] = i;
             }
         }
         return len;
     } 
 
 };
-
-
 
 
 //{ Driver Code Starts.
